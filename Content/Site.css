@@ -1,0 +1,46 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+input, select, textarea {
+    max-width: 280px;
+}
+
+input[type="text"], input[type="number"], button {
+    width: 50%;  /* Changed from 50% to 100% within the form */
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.chart-container {
+    width: 400px;
+    height: 400px;
+}
+
+#expensesChart {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
