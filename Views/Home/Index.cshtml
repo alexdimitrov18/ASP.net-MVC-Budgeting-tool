@@ -1,16 +1,8 @@
 ﻿@model List<LateNight.Models.Expense>
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure this path matches your layout file location
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-    <link href="~/Content/site.css" rel="stylesheet" />
-</head>
-<body>
 <div style="width: 50%; float: left;">
     <h2>Monthly Budget</h2>
     @if (!ViewBag.IsBudgetSet) {
@@ -22,7 +14,7 @@
             </div>
         </form>
     }
-        
+    
     <form action="/Home/AddExpense" method="post">
         <div class="form-group">
             <label for="name">Expense Name:</label>
@@ -46,9 +38,3 @@
             data-data='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(e => e.Amount)))'>
     </canvas>
 </div>
-
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-<script src="~/Scripts/chartSetup.js"></script>
-</body>
-</html>

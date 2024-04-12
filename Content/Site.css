@@ -1,4 +1,29 @@
-﻿body {
+﻿/* Ensures navbar sticks to the top of the page */
+.navbar {
+    margin-bottom: 20px;
+    border-radius: 0;
+    z-index: 1000; /* Ensure navbar is above other content */
+}
+
+/* Ensures the body content does not hide under the fixed navbar */
+body {
+    padding-top: 70px; /* Increase top padding to make space for the navbar */
+}
+.navbar-inverse {
+    background-color: #222; /* Dark background for the navbar */
+    border-color: #080808; /* Slightly lighter border */
+}
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav>li>a {
+    color: #ac2925; /* Light grey text, adjust if not visible */
+}
+
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: #fff; /* White text on hover */
+}
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -44,3 +69,4 @@ button:hover {
     height: 100% !important;
     display: block;
 }
+
