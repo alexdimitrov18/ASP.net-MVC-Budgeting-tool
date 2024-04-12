@@ -13,6 +13,16 @@
 <body>
 <div style="width: 50%; float: left;">
     <h2>Monthly Budget</h2>
+    @if (!ViewBag.IsBudgetSet) {
+        <form action="/Home/SetBudget" method="post">
+            <div class="form-group">
+                <label for="budget">Set Monthly Budget:</label>
+                <input type="number" id="budget" name="budget" required>
+                <button type="submit">Set Budget</button>
+            </div>
+        </form>
+    }
+        
     <form action="/Home/AddExpense" method="post">
         <div class="form-group">
             <label for="name">Expense Name:</label>
@@ -22,15 +32,17 @@
             <label for="amount">Expense Amount:</label>
             <input type="number" id="amount" name="Amount" required>
         </div>
-        <div class="form-group">
-            <button type="submit">Submit</button>
-        </div>
+        <button type="submit">Submit Expense</button>
     </form>
+        
+    @if (ViewBag.OverBudget > 0) {
+        <p style="color: red;">You're @ViewBag.OverBudget over your budget</p>
+    }
 </div>
 <div class="chart-container" style="float: right; width: 400px; height: 400px;">
     <h2>Expenses Pie Chart</h2>
-    <canvas id="expensesChart" 
-            data-labels='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(e => e.Name)))' 
+    <canvas id="expensesChart"
+            data-labels='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(e => e.Name)))'
             data-data='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(e => e.Amount)))'>
     </canvas>
 </div>
