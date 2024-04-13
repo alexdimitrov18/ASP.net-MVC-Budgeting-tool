@@ -24,11 +24,34 @@ namespace LateNight.Controllers
         {
             return View();
         }
+ 
+       
         
-        public ActionResult Login()
-        {
-            return View();
-        }
+            [HttpGet]
+            public ActionResult Login()
+            {
+                return View(new User()); // Pass a new User model to the view
+            }
+
+            [HttpPost]
+            public ActionResult Login(User user)
+            {
+                if (ModelState.IsValid)
+                {
+                    // Validate the user's credentials here (currently using dummy data)
+                    if (user.Username == "admin" && user.Password == "admin123")
+                    {
+                        // Authentication successful, proceed to redirect or set session
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid username or password.");
+                    }
+                }
+                return View(user);
+            }
+        
         
         [HttpPost]
         public ActionResult AddExpense(Expense expense)
