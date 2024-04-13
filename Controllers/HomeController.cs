@@ -20,7 +20,16 @@ namespace LateNight.Controllers
 
             return View(expenses);
         }
-
+        public ActionResult About()
+        {
+            return View();
+        }
+        
+        public ActionResult Login()
+        {
+            return View();
+        }
+        
         [HttpPost]
         public ActionResult AddExpense(Expense expense)
         {
