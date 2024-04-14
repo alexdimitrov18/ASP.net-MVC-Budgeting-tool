@@ -48,7 +48,9 @@ namespace LateNight.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Invalid username or password.");
+                        ViewBag.Message = "Wrong username or password.";
+                        ViewBag.MessageType = "error"; 
+                        return View();
                     }
                 }
                 return View(user);

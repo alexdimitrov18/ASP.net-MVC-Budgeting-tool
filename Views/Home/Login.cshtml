@@ -17,6 +17,10 @@
                     <input type="password" class="form-control" id="password" name="Password" asp-for="Password" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
+                <!-- Display message here -->
+                            <div style="margin-top: 10px; color: red;">
+                                @Html.Raw(ViewBag.Message)
+                            </div> 
             </form>
         </div>
 
