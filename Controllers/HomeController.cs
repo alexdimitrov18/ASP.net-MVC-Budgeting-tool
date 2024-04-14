@@ -43,6 +43,7 @@ namespace LateNight.Controllers
                     if (AuthenticateUser(user.Username, user.Password))
                     {
                         // Authentication successful, proceed to redirect or set session
+                        Session["Username"] = user.Username;
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -138,6 +139,12 @@ namespace LateNight.Controllers
                 return result > 0;
             }
         }
+    }
+    
+    public ActionResult Logout()
+    {
+        Session.Clear();  // it clears the session
+        return RedirectToAction("Index", "Home");
     }
         
         [HttpPost]
