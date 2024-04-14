@@ -19,22 +19,28 @@
             height: 100%; /* Ensure full height */
             margin: 0; /* Remove default margin */
             padding: 0; /* Remove default padding */
+            background-color: #D6EADF; /* Background color same as navbar and footer */
         }
         .navbar-fixed-top {
             z-index: 1030; /* Make sure navbar is above all other content */
+            background-color: #D6EADF; /* Dark slate gray for a modern look */
+            border-color: #D6EADF;
         }
-        .body-content {
-            padding-top: 70px; /* Adjust this value based on the actual height of your navbar */
+        .navbar-brand, .nav-link, .navbar-fixed-top .navbar-nav > li > a {
+            color: #000000 !important; /* Light gray text for contrast */
         }
         .footer {
             position: fixed; /* Fix position to the bottom */
             left: 0;
             right: 0;
             bottom: 0; /* Align at the bottom */
-            background-color: #333; /* Footer color */
-            color: white; /* Text color for footer */
+            background-color: #D6EADF; /* Slightly lighter gray than navbar */
+            color: black; /* Text color for footer set to black */
             text-align: center;
             padding: 10px 0; /* Padding for aesthetic spacing */
+        }
+        .body-content {
+            padding-top: 70px; /* Adjust this value based on the actual height of your navbar */
         }
     </style>
 </head>
@@ -42,12 +48,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span the="icon-bar"></span>
-            </button>
-            <a href="@Url.Action("Index", "Home")" class="navbar-brand">Budgeting stuff</a>
+           
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -73,7 +74,7 @@
 </div>
 
 <footer class="footer">
-    <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    <p>My C# Budgeting website for NBU </p>
 </footer>
 </body>
 </html>
