@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using LateNight.Models;
-using System.Linq; // Necessary for LINQ operations
+using System.Linq;
+using MySql.Data.MySqlClient; // Necessary for LINQ operations
 
 namespace LateNight.Controllers
 {
@@ -38,8 +40,7 @@ namespace LateNight.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // Validate the user's credentials here (currently using dummy data)
-                    if (user.Username == "admin" && user.Password == "admin123")
+                    if (AuthenticateUser(user.Username, user.Password))
                     {
                         // Authentication successful, proceed to redirect or set session
                         return RedirectToAction("Index", "Home");
@@ -50,6 +51,23 @@ namespace LateNight.Controllers
                     }
                 }
                 return View(user);
+            }
+
+            private bool AuthenticateUser(string username, string password)
+            {
+                string connectionString = "server=localhost;port=3306;database=secondattempt;user=root;password=root";
+                using (var connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    var query = "SELECT COUNT(1) FROM users WHERE username = @username AND password = @password";
+                    using (var cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@username", username);
+                        cmd.Parameters.AddWithValue("@password", password);
+                        int result = Convert.ToInt32(cmd.ExecuteScalar());
+                        return result == 1;
+                    }
+                }
             }
         
         
