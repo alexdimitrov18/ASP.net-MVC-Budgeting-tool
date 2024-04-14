@@ -69,6 +69,72 @@ namespace LateNight.Controllers
                     }
                 }
             }
+            
+             [HttpGet]
+    public ActionResult Signup()
+    {
+        return View();
+    }
+
+    // POST: Handle the Signup
+    [HttpPost]
+    public ActionResult Signup(string newUsername, string newPassword, string confirmPassword)
+    {
+        if (newPassword != confirmPassword)
+        {
+            ModelState.AddModelError("", "Password and Confirm Password do not match.");
+            return View();
+        }
+
+        if (IsUsernameExists(newUsername))
+        {
+            ModelState.AddModelError("", "Username already exists. Please choose another username.");
+            return View();
+        }
+
+        if (InsertNewUser(newUsername, newPassword))
+        {
+            // Redirect to login or another appropriate page
+            return RedirectToAction("Login");
+        }
+
+        // Generic error message if insert fails
+        ModelState.AddModelError("", "Unable to register. Please try again.");
+        return View();
+    }
+
+    private bool IsUsernameExists(string username)
+    {
+        string connectionString = "server=localhost;port=3306;database=secondattempt;user=root;password=root";
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            var query = "SELECT COUNT(1) FROM users WHERE username = @username";
+            using (var cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@username", username);
+                int result = Convert.ToInt32(cmd.ExecuteScalar());
+                return result >= 1;
+            }
+        }
+    }
+
+    private bool InsertNewUser(string username, string password)
+    {
+        string connectionString = "server=localhost;port=3306;database=secondattempt;user=root;password=root";
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            var query = "INSERT INTO users (username, password) VALUES (@username, @password)";
+            using (var cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@password", password);
+                int result = cmd.ExecuteNonQuery();
+                return result > 0;
+            }
+        }
+    }
         
         
         [HttpPost]
