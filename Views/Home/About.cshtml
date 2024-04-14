@@ -1,13 +1,52 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "Hello, dear reader";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<p>Bacon ipsum dolor amet chislic rump doner, biltong jerky kielbasa andouille frankfurter kevin shank cow sausage porchetta. Beef kevin rump pork chop kielbasa fatback alcatra chicken cupim ham hock prosciutto shoulder pig tail meatloaf. Capicola chuck shank fatback pastrami corned beef tongue turkey chicken pork sirloin andouille. Andouille meatball kielbasa, pork belly biltong prosciutto tail hamburger doner pastrami fatback. Ham hock jowl bresaola bacon, pancetta short ribs shoulder sausage tri-tip beef ham hamburger. Tenderloin turkey t-bone jerky. Picanha filet mignon sausage, biltong jerky pastrami spare ribs.</p>
-<p>Pork belly tail picanha boudin, sausage chicken capicola frankfurter short ribs short loin. Ground round spare ribs picanha beef ribs turducken buffalo tenderloin. Meatball sirloin spare ribs cupim tri-tip beef ribs short loin landjaeger meatloaf andouille. Pig sirloin jerky turkey pastrami pork loin ball tip filet mignon tenderloin ground round. Turducken pork belly pastrami beef ribs turkey sirloin. Kielbasa biltong rump chicken beef corned beef salami swine turkey fatback.</p>
+<div>
+ 
+    <p>If you're seeing this, it means you want to know more about my project.</p>
+    <p>I have a very basic design and limited functionality, but it's better than nothing.</p>
+    <p>You can also check out my project <a href="https://github.com/alexdimitrov18/SecondAttempt">right here</a>.</p>
+</div>
 
-<p> Pork loin short loin chislic ball tip burgdoggen, pig doner chuck bresaola flank turducken prosciutto spare ribs. Tail turducken pork belly, chicken salami meatloaf burgdoggen brisket tri-tip ground round boudin frankfurter shoulder pancetta. Flank bresaola corned beef ball tip venison tail t-bone jerky beef frankfurter. Pig shank doner chuck rump, beef ribeye sirloin strip steak cow meatloaf. Venison tenderloin swine bresaola frankfurter, burgdoggen capicola pancetta turducken.</p>
+<div>
+    <h4>Navbar</h4>
+    <p>The navbar at the top has 3 buttons:</p>
+    <ol>
+        <li>The home section where the actual plots and budgeting are.</li>
+        <li>The about section that you're reading right now.</li>
+        <li>The login where you (supposedly) log in.</li>
+    </ol>
+</div>
 
+<div>
+    <h4>Budgeting Section</h4>
+    <p>The budgeting section has 3 components:</p>
+    <ol>
+        <li>Setting the initial monthly budget - I made it so once you set it, it stays fixed because I have a lot of issues with updating it (it often bugged the [over budget] logic).</li>
+        <li>Adding expenses with a name and amount.</li>
+        <li>The actual pie chart that visualizes them.</li>
+    </ol>
+    <p>In the future, I will add logic to use only positive numbers since currently you can input all kinds of numbers (even negative).</p>
+    <p>I may also add another plot (like a stacked bar plot) if it doesn't break my visualizations (it took me 2 hours to fix the pie chart).</p>
+</div>
 
-<p> Turkey short ribs chuck frankfurter pancetta, pork chop ham ball tip salami beef ribs. Leberkas strip steak brisket meatloaf. Beef picanha frankfurter cow turducken meatloaf. Doner ribeye beef ribs, tail pastrami pig jowl swine andouille chicken leberkas boudin bacon meatball. Tenderloin brisket spare ribs beef fatback ham hock kevin short ribs pastrami. Pork chop buffalo rump hamburger short loin turducken kielbasa jerky salami corned beef swine tail short ribs shoulder.</p>
+<div>
+    <h4>Login Section</h4>
+    <p>The login section has 2 components:</p>
+    <ol>
+        <li>
+            The login component performs a check to a table in my localhosted MySQL database. It checks if a username and password exact match exist and starts a session redirecting to the home page.
+        </li>
+        <li>
+            The signup page has the typical username, password, and confirm password fields.
+        </li>
+    </ol>
+    <p>For the login, I have an error message if the username or password is wrong; I don't have logic to tell if [no such user exists]. I also duplicate this error message at the moment (and will try to fix it later). For the signup, I have the basic [check if user already exists] and [check if the 2 passwords match] logics.</p>
+</div>
+
+<div>
+    <p>The project is less than ideal, but I think it's good enough.</p>
+</div>
