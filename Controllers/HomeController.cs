@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using LateNight.Models;
 using System.Linq;
 using MySql.Data.MySqlClient; // Necessary for LINQ operations
-
+using System.Data;
 namespace LateNight.Controllers
 {
     public class HomeController : Controller
@@ -70,7 +70,8 @@ namespace LateNight.Controllers
                 }
             }
             
-             [HttpGet]
+  
+     [HttpGet]
     public ActionResult Signup()
     {
         return View();
@@ -82,24 +83,27 @@ namespace LateNight.Controllers
     {
         if (newPassword != confirmPassword)
         {
-            ModelState.AddModelError("", "Password and Confirm Password do not match.");
+            ViewBag.Message = "Password and Confirm Password do not match.";
+            ViewBag.MessageType = "error"; // Indicate that this is an error message
             return View();
         }
 
         if (IsUsernameExists(newUsername))
         {
-            ModelState.AddModelError("", "Username already exists. Please choose another username.");
+            ViewBag.Message = "Username already exists. Please choose another username.";
+            ViewBag.MessageType = "error"; // Indicate that this is an error message
             return View();
         }
 
         if (InsertNewUser(newUsername, newPassword))
         {
-            // Redirect to login or another appropriate page
-            return RedirectToAction("Login");
+            ViewBag.Message = "Signed up successfully.";
+            ViewBag.MessageType = "success"; // Indicate that this is a success message
+            return View();
         }
 
-        // Generic error message if insert fails
-        ModelState.AddModelError("", "Unable to register. Please try again.");
+        ViewBag.Message = "Unable to register. Please try again.";
+        ViewBag.MessageType = "error"; // Indicate that this is an error message
         return View();
     }
 
@@ -135,7 +139,6 @@ namespace LateNight.Controllers
             }
         }
     }
-        
         
         [HttpPost]
         public ActionResult AddExpense(Expense expense)

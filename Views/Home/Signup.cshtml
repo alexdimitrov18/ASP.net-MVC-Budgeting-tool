@@ -1,5 +1,5 @@
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Signup";
 }
 
 <div class="container">
@@ -23,7 +23,9 @@
         <!-- Signup Form on the Right -->
      <div class="col-md-6">
          <h2>Signup</h2>
-         <form action="/Home/Signup" method="post">
+         
+         @using (Html.BeginForm("Signup", "Home", FormMethod.Post))
+         {
              <div class="form-group">
                  <label for="newUsername">Username:</label>
                  <input type="text" class="form-control" id="newUsername" name="newUsername" required>
@@ -37,11 +39,13 @@
                  <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
              </div>
              <button type="submit" class="btn btn-success">Signup</button>
-             <!-- Display message here -->
-             <div style="margin-top: 10px; color: green;">
-                 @Html.Raw(ViewBag.Message)
-             </div>
-         </form>
+             if (ViewBag.Message != null)
+             {
+                 <div style="margin-top: 10px; color: @(ViewBag.MessageType == "success" ? "green" : "red");">
+                     @ViewBag.Message
+                 </div>
+             }
+         }
      </div>
 
     </div>
