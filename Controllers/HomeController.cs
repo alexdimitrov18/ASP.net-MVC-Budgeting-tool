@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using LateNight.Models;
 using System.Linq;
-using MySql.Data.MySqlClient; // Necessary for LINQ operations
+using MySql.Data.MySqlClient; 
 using System.Data;
 namespace LateNight.Controllers
 {
     public class HomeController : Controller
     {
         static List<Expense> expenses = new List<Expense>();
-        static decimal monthlyBudget = 0; // Static field to store the monthly budget
+        static decimal monthlyBudget = 0; // It's static so you cant change it once set
         static bool isBudgetSet = false; // Flag to check if budget is already set
 
         public ActionResult Index()
@@ -18,7 +18,7 @@ namespace LateNight.Controllers
             ViewBag.TotalExpenses = expenses.Sum(e => e.Amount);
             ViewBag.Budget = monthlyBudget;
             ViewBag.OverBudget = ViewBag.TotalExpenses > ViewBag.Budget ? ViewBag.TotalExpenses - ViewBag.Budget : 0;
-            ViewBag.IsBudgetSet = isBudgetSet; // Ensure this is always set
+            ViewBag.IsBudgetSet = isBudgetSet; 
 
             return View(expenses);
         }
@@ -32,7 +32,7 @@ namespace LateNight.Controllers
             [HttpGet]
             public ActionResult Login()
             {
-                return View(new User()); // Pass a new User model to the view
+                return View(new User()); // Pass a new User to the view
             }
 
             [HttpPost]
@@ -42,7 +42,7 @@ namespace LateNight.Controllers
                 {
                     if (AuthenticateUser(user.Username, user.Password))
                     {
-                        // Authentication successful, proceed to redirect or set session
+                        // If authentication is successful - redirect and set session
                         Session["Username"] = user.Username;
                         return RedirectToAction("Index", "Home");
                     }
@@ -56,9 +56,11 @@ namespace LateNight.Controllers
 
             private bool AuthenticateUser(string username, string password)
             {
+                //fixing this connection string and mysql configuration took me 2 days to fix...
                 string connectionString = "server=localhost;port=3306;database=secondattempt;user=root;password=root";
                 using (var connection = new MySqlConnection(connectionString))
                 {
+                    //we make a query to see if we have a matching username and password combo in the database
                     connection.Open();
                     var query = "SELECT COUNT(1) FROM users WHERE username = @username AND password = @password";
                     using (var cmd = new MySqlCommand(query, connection))
@@ -85,30 +87,30 @@ namespace LateNight.Controllers
         if (newPassword != confirmPassword)
         {
             ViewBag.Message = "Password and Confirm Password do not match.";
-            ViewBag.MessageType = "error"; // Indicate that this is an error message
+            ViewBag.MessageType = "error"; // we throw an error message
             return View();
         }
 
         if (IsUsernameExists(newUsername))
         {
             ViewBag.Message = "Username already exists. Please choose another username.";
-            ViewBag.MessageType = "error"; // Indicate that this is an error message
+            ViewBag.MessageType = "error"; // same here
             return View();
         }
 
         if (InsertNewUser(newUsername, newPassword))
         {
             ViewBag.Message = "Signed up successfully.";
-            ViewBag.MessageType = "success"; // Indicate that this is a success message
+            ViewBag.MessageType = "success"; // if everything is ok, we put it in the DB
             return View();
         }
 
-        ViewBag.Message = "Unable to register. Please try again.";
-        ViewBag.MessageType = "error"; // Indicate that this is an error message
+        ViewBag.Message = "Unable to register. Please try again.";// added a default error, a good practice from the course i was watching
+        ViewBag.MessageType = "error"; 
         return View();
     }
 
-    private bool IsUsernameExists(string username)
+    private bool IsUsernameExists(string username) // duplicate username check
     {
         string connectionString = "server=localhost;port=3306;database=secondattempt;user=root;password=root";
         using (var connection = new MySqlConnection(connectionString))
@@ -124,7 +126,7 @@ namespace LateNight.Controllers
         }
     }
 
-    private bool InsertNewUser(string username, string password)
+    private bool InsertNewUser(string username, string password)// separated the insertion for clarity
     {
         string connectionString = "server=localhost;port=3306;database=secondattempt;user=root;password=root";
         using (var connection = new MySqlConnection(connectionString))
@@ -143,8 +145,8 @@ namespace LateNight.Controllers
     
     public ActionResult Logout()
     {
-        Session.Clear();  // it clears the session
-        return RedirectToAction("Index", "Home");
+        Session.Clear();  // it clears the session and redirects to login again
+        return RedirectToAction("Login", "Home");
     }
         
         [HttpPost]
