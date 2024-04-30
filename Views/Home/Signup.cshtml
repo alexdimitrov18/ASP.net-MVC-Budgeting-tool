@@ -7,7 +7,7 @@
         <!-- Login Form on the Left -->
         <div class="col-md-6">
             <h2>Login</h2>
-            <form action="/Home/Login" method="post">
+            <form action="/Home/Login" method="post" onsubmit="return validateLogin()">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" id="username" name="Username" asp-for="Username" required>
@@ -21,32 +21,71 @@
         </div>
 
         <!-- Signup Form on the Right -->
-     <div class="col-md-6">
-         <h2>Signup</h2>
-         
-         @using (Html.BeginForm("Signup", "Home", FormMethod.Post))
-         {
-             <div class="form-group">
-                 <label for="newUsername">Username:</label>
-                 <input type="text" class="form-control" id="newUsername" name="newUsername" required>
-             </div>
-             <div class="form-group">
-                 <label for="newPassword">Password:</label>
-                 <input type="password" class="form-control" id="newPassword" name="newPassword" required>
-             </div>
-             <div class="form-group">
-                 <label for="confirmPassword">Confirm Password:</label>
-                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-             </div>
-             <button type="submit" class="btn btn-success">Signup</button>
-             if (ViewBag.Message != null)
-             {
-                 <div style="margin-top: 10px; color: @(ViewBag.MessageType == "success" ? "green" : "red");">
-                     @ViewBag.Message
-                 </div>
-             }
-         }
-     </div>
-
+        <div class="col-md-6">
+            <h2>Signup</h2>
+            <form action="/Home/Signup" method="post" onsubmit="return validateSignup()">
+                <div class="form-group">
+                    <label for="newUsername">Username:</label>
+                    <input type="text" class="form-control" id="newUsername" name="newUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password:</label>
+                    <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-success">Signup</button>
+                @if (ViewBag.Message != null)
+                {
+                    <div style="margin-top: 10px; color: @(ViewBag.MessageType == "success" ? "green" : "red");">
+                        @ViewBag.Message
+                    </div>
+                }
+            </form>
+        </div>
     </div>
 </div>
+
+<script>
+    function validateLogin() {
+        var username = document.getElementById('username');
+        var password = document.getElementById('password');
+        return checkUsername(username) && checkPassword(password);
+    }
+
+    function validateSignup() {
+        var newUsername = document.getElementById('newUsername');
+        var newPassword = document.getElementById('newPassword');
+        var confirmPassword = document.getElementById('confirmPassword');
+        return checkUsername(newUsername) && checkPassword(newPassword) && checkConfirmPassword(newPassword, confirmPassword);
+    }
+
+    function checkUsername(input) {
+        if (input.value.length < 4) {
+            alert('Username must be at least 4 characters long.');
+            input.focus();
+            return false;
+        }
+        return true;
+    }
+
+    function checkPassword(input) {
+        if (input.value.length < 6) {
+            alert('Password must be at least 6 characters long.');
+            input.focus();
+            return false;
+        }
+        return true;
+    }
+
+    function checkConfirmPassword(password, confirmPassword) {
+        if (password.value !== confirmPassword.value) {
+            alert('Passwords do not match.');
+            confirmPassword.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
