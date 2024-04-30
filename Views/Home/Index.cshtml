@@ -3,7 +3,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure this path matches your layout file location
 }
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,11 +12,29 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function validateInput(input) {
+            var value = parseInt(input.value);
+            var errorMessage = '';
+            if (isNaN(value) || value <= 0) {
+                errorMessage = 'Enter a positive number';
+            } else if (value > 10000) {
+                errorMessage = 'Please be reasonable';
+            }
+            if (errorMessage) {
+                alert(errorMessage);
+                input.value = ''; // clear input
+                input.focus(); // set focus back to input
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <div style="width: 50%; float: left;">
         <h2>Manage Your Budgets</h2>
-        <form action="/Home/SetBudget" method="post" class="form-horizontal">
+        <form action="/Home/SetBudget" method="post" class="form-horizontal" onsubmit="return validateInput(document.getElementById('budget'))">
             <div class="form-group">
                 <label for="budget" class="col-sm-4 control-label">Set New Budget:</label>
                 <div class="col-sm-8">
@@ -39,7 +56,7 @@
         <p>Total Budget: $@ViewBag.TotalBudgets</p>
 
         <h2>Add an Expense</h2>
-        <form action="/Home/AddExpense" method="post" class="form-horizontal">
+        <form action="/Home/AddExpense" method="post" class="form-horizontal" onsubmit="return validateInput(document.getElementById('amount'))">
             <div class="form-group">
                 <label for="name" class="col-sm-4 control-label">Expense Name:</label>
                 <div class="col-sm-8">
