@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure this path matches your layout file location
 }
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,11 +62,11 @@
         }
     </div>
 
-    <div class="chart-container" style="float: right; width: 400px; height: 400px;">
+    <div class="chart-container" style="float: right; width: 200px; height: 200px;">
         <h2>Expenses Pie Chart</h2>
-        <canvas id="expensesChart"></canvas>
+        <canvas id="expensesChart" style="width: 200px; height: 200px;"></canvas>
         <h2>Budgets Pie Chart</h2>
-        <canvas id="budgetsChart"></canvas>
+        <canvas id="budgetsChart" style="width: 200px; height: 200px;"></canvas>
     </div>
 
     <script>
@@ -88,7 +89,7 @@
                 labels: new Array(@ViewBag.Budgets.Count).fill("Budget"),
                 datasets: [{
                     data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Budgets)),
-                    backgroundColor: ['grey', 'silver', 'black', 'darkgrey']
+                    backgroundColor: ['yellow', 'pink', 'purple', 'green']
                 }]
             }
         });
