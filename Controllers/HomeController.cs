@@ -10,15 +10,15 @@ namespace LateNight.Controllers
     public class HomeController : Controller
     {
         static List<Expense> expenses = new List<Expense>();
-        static decimal monthlyBudget = 0; // It's static so you cant change it once set
-        static bool isBudgetSet = false; // Flag to check if budget is already set
+        static List<decimal> budgets = new List<decimal>(); // A list to store multiple budgets
+       
 
         public ActionResult Index()
         {
             ViewBag.TotalExpenses = expenses.Sum(e => e.Amount);
-            ViewBag.Budget = monthlyBudget;
-            ViewBag.OverBudget = ViewBag.TotalExpenses > ViewBag.Budget ? ViewBag.TotalExpenses - ViewBag.Budget : 0;
-            ViewBag.IsBudgetSet = isBudgetSet; 
+            ViewBag.TotalBudgets = budgets.Sum(); // Total of all budgets
+            ViewBag.Budgets = budgets; // Passing the list of budgets
+            ViewBag.OverBudget = ViewBag.TotalExpenses > ViewBag.TotalBudgets ? ViewBag.TotalExpenses - ViewBag.TotalBudgets : 0;
 
             return View(expenses);
         }
@@ -151,22 +151,17 @@ namespace LateNight.Controllers
         return RedirectToAction("Login", "Home");
     }
         
-        [HttpPost]
-        public ActionResult AddExpense(Expense expense)
-        {
-            expenses.Add(expense);
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public ActionResult SetBudget(decimal budget)
-        {
-            if (!isBudgetSet) // Only set the budget if it hasn't been set before
-            {
-                monthlyBudget = budget;
-                isBudgetSet = true;
-            }
-            return RedirectToAction("Index");
-        }
+    [HttpPost]
+    public ActionResult AddExpense(Expense expense)
+    {
+        expenses.Add(expense);
+        return RedirectToAction("Index");
+    }
+    [HttpPost]
+    public ActionResult SetBudget(decimal budget)
+    {
+        budgets.Add(budget); // Add new budget to the list
+        return RedirectToAction("Index");
+    }
     }
 }

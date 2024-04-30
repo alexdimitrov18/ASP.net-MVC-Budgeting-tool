@@ -3,57 +3,95 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure this path matches your layout file location
 }
 
-<div style="width: 50%; float: left;">
-    <h2>Monthly Budget</h2>
-    @if (!ViewBag.IsBudgetSet) {
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Budget Tracker</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="width: 50%; float: left;">
+        <h2>Manage Your Budgets</h2>
         <form action="/Home/SetBudget" method="post" class="form-horizontal">
             <div class="form-group">
-                <label for="budget" class="col-sm-4 control-label">Set Monthly Budget:</label>
+                <label for="budget" class="col-sm-4 control-label">Set New Budget:</label>
                 <div class="col-sm-8">
                     <input type="number" id="budget" name="budget" required class="form-control">
                 </div>
                 <div class="col-sm-offset-4 col-sm-8">
-                    <button type="submit" class="btn btn-success">Set Budget</button>
+                    <button type="submit" class="btn btn-primary">Add Budget</button>
                 </div>
             </div>
         </form>
-    }
-    
-    <form action="/Home/AddExpense" method="post" class="form-horizontal">
-        <div class="form-group">
-            <label for="name" class="col-sm-4 control-label">Expense Name:</label>
-            <div class="col-sm-8">
-                <input type="text" id="name" name="Name" required class="form-control">
+
+        <h3>Current Budgets</h3>
+        <ul>
+            @foreach (var budget in ViewBag.Budgets)
+            {
+                <li>$@budget</li>
+            }
+        </ul>
+        <p>Total Budget: $@ViewBag.TotalBudgets</p>
+
+        <h2>Add an Expense</h2>
+        <form action="/Home/AddExpense" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label for="name" class="col-sm-4 control-label">Expense Name:</label>
+                <div class="col-sm-8">
+                    <input type="text" id="name" name="Name" required class="form-control">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="amount" class="col-sm-4 control-label">Expense Amount:</label>
-            <div class="col-sm-8">
-                <input type="number" id="amount" name="Amount" required class="form-control">
+            <div class="form-group">
+                <label for="amount" class="col-sm-4 control-label">Expense Amount:</label>
+                <div class="col-sm-8">
+                    <input type="number" id="amount" name="Amount" required class="form-control">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
                 <button type="submit" class="btn btn-success">Submit Expense</button>
             </div>
-        </div>
-    </form>
-    
-    
-     @if (ViewBag.Budget > 0) {
-            <p style="color: green;">Your set budget is $ @ViewBag.Budget</p>
-     }
+        </form>
         
-    @if (ViewBag.OverBudget > 0) {
-        <p style="color: red;">You're $ @ViewBag.OverBudget over your budget</p>
-    }
-    
-    
-</div>
-<div class="chart-container" style="float: right; width: 400px; height: 400px;">
-    <h2>Expenses Pie Chart</h2>
-    <canvas id="expensesChart"
-            data-labels='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(e => e.Name)))'
-            data-data='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(e => e.Amount)))'>
-    </canvas>
-</div>
+        @if (ViewBag.OverBudget > 0) {
+            <p style="color: red;">You are over budget by $@ViewBag.OverBudget</p>
+        }
+    </div>
+
+    <div class="chart-container" style="float: right; width: 400px; height: 400px;">
+        <h2>Expenses Pie Chart</h2>
+        <canvas id="expensesChart"></canvas>
+        <h2>Budgets Pie Chart</h2>
+        <canvas id="budgetsChart"></canvas>
+    </div>
+
+    <script>
+        var ctx1 = document.getElementById('expensesChart').getContext('2d');
+        var expensesChart = new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(e => e.Name))),
+                datasets: [{
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(e => e.Amount))),
+                    backgroundColor: ['red', 'blue', 'green', 'yellow', 'purple', 'orange']
+                }]
+            }
+        });
+
+        var ctx2 = document.getElementById('budgetsChart').getContext('2d');
+        var budgetsChart = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: new Array(@ViewBag.Budgets.Count).fill("Budget"),
+                datasets: [{
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Budgets)),
+                    backgroundColor: ['grey', 'silver', 'black', 'darkgrey']
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
