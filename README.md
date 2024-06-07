@@ -1,7 +1,5 @@
-
-
-
-https://github.com/alexdimitrov18/ASP.net-MVC-Budgeting-tool/assets/29758601/d9c76d59-19ea-405d-bdf9-ed5c1c03cc74
+# Video Demo
+https://www.youtube.com/watch?v=oPNxb-MJgNM
 
 
 
